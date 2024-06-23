@@ -3,11 +3,14 @@ package dev.harshal.scaler.services;
 import dev.harshal.scaler.dtos.GenricProductDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service("SelfImplementationProductService")
 public class SelfImplementationProductService implements ProductService{
     @Override
-    public void getAllProducts() {
-
+    public List<GenricProductDTO> getAllProducts() {
+        return new ArrayList<GenricProductDTO>();
     }
 
     @Override
@@ -16,17 +19,17 @@ public class SelfImplementationProductService implements ProductService{
     }
 
     @Override
-    public void deleteProductsById() {
+    public void deleteProductsById(Long id) {
 
     }
 
     @Override
-    public void createProduct() {
+    public void createProduct(GenricProductDTO genricProductDTO) {
 
     }
 
     @Override
-    public void updateProductById() {
+    public void updateProductById(GenricProductDTO genricProductDTO) {
 
     }
 }

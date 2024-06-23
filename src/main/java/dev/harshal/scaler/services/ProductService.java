@@ -2,12 +2,15 @@ package dev.harshal.scaler.services;
 
 import dev.harshal.scaler.dtos.GenricProductDTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface ProductService {
-    void getAllProducts();
+    List<GenricProductDTO> getAllProducts();
     GenricProductDTO getProductsById(Long id);
-    void deleteProductsById();
+    void deleteProductsById(Long id);
 
-    void createProduct();
+    void createProduct(GenricProductDTO genricProductDTO);
 
-    void updateProductById();
+    void updateProductById(GenricProductDTO genricProductDTO);
 }

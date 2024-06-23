@@ -11,4 +11,5 @@ public class GenricProductDTO extends BaseDTO{
     private String image;
     private String category;
     private double price;
+
 }

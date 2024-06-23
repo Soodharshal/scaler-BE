@@ -3,7 +3,12 @@ package dev.harshal.scaler.controllers;
 import dev.harshal.scaler.dtos.GenricProductDTO;
 import dev.harshal.scaler.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController()
 @RequestMapping("/products")
@@ -15,8 +20,12 @@ public class ProductController {
         this.productService= productService;
     }
     @GetMapping
-    public void getAllProducts(){
-
+    public  ResponseEntity<List<GenricProductDTO>> getAllProducts(){
+        ResponseEntity<List<GenricProductDTO>> responseEntity = new ResponseEntity<>(
+                productService.getAllProducts(),
+                HttpStatus.OK
+        );
+        return responseEntity;
     }
 
     @GetMapping("{id}")
@@ -25,18 +34,18 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteProductsById(){
-
+    public void deleteProductsById(@PathVariable("id") Long id){
+         productService.deleteProductsById(id);
     }
 
     @PostMapping
-    public void createProduct(){
-
+    public void createProduct(@RequestBody GenricProductDTO genricProductDTO){
+        productService.createProduct(genricProductDTO);
     }
 
     @PutMapping("{id}")
-    public void updateProductById(){
-
+    public void updateProductById(@RequestBody GenricProductDTO genricProductDTO){
+        productService.updateProductById(genricProductDTO);
     }
 }
 
