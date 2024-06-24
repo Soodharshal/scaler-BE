@@ -1,6 +1,8 @@
 package dev.harshal.scaler.controllers;
 
+import dev.harshal.scaler.dtos.ExceptionDTO;
 import dev.harshal.scaler.dtos.GenricProductDTO;
+import dev.harshal.scaler.exceptions.NotFoundException;
 import dev.harshal.scaler.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -29,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public GenricProductDTO getProductsById(@PathVariable("id") Long id){
+    public GenricProductDTO getProductsById(@PathVariable("id") Long id) throws NotFoundException {
         return productService.getProductsById(id);
     }
 

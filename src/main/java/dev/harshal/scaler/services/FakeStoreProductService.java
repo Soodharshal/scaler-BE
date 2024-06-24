@@ -2,11 +2,11 @@ package dev.harshal.scaler.services;
 
 import dev.harshal.scaler.dtos.FakeStoreProductDTO;
 import dev.harshal.scaler.dtos.GenricProductDTO;
-import dev.harshal.scaler.models.Product;
+
+import dev.harshal.scaler.exceptions.NotFoundException;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -47,10 +47,13 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public GenricProductDTO getProductsById(Long id) {
+    public GenricProductDTO getProductsById(Long id) throws NotFoundException {
          RestTemplate restTemplate = restTemplateBuilder.build();
          ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity(productRequestByIDURL, FakeStoreProductDTO.class,id);
          FakeStoreProductDTO fakeStoreProductDTO = responseEntity.getBody();
+         if(fakeStoreProductDTO == null){
+             throw new NotFoundException("Product not found with id "+id+" doesn't exist");
+         }
          GenricProductDTO product = new GenricProductDTO();
          product.setCategory(fakeStoreProductDTO.getCategory());
          product.setDescription(fakeStoreProductDTO.getDescription());
