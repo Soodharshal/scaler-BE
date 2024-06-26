@@ -1,6 +1,6 @@
 package dev.harshal.scaler.controllers;
 
-import dev.harshal.scaler.dtos.ExceptionDTO;
+import dev.harshal.scaler.dtos.FakeStoreProductDTO;
 import dev.harshal.scaler.dtos.GenricProductDTO;
 import dev.harshal.scaler.exceptions.NotFoundException;
 import dev.harshal.scaler.services.ProductService;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController()

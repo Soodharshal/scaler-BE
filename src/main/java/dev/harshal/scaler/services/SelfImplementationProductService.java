@@ -1,5 +1,6 @@
 package dev.harshal.scaler.services;
 
+import dev.harshal.scaler.dtos.FakeStoreProductDTO;
 import dev.harshal.scaler.dtos.GenricProductDTO;
 import org.springframework.stereotype.Service;
 

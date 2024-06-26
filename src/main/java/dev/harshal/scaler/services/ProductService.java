@@ -1,8 +1,10 @@
 package dev.harshal.scaler.services;
 
+import dev.harshal.scaler.dtos.FakeStoreProductDTO;
 import dev.harshal.scaler.dtos.GenricProductDTO;
 import dev.harshal.scaler.exceptions.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ProductService {

@@ -4,83 +4,47 @@ import dev.harshal.scaler.dtos.FakeStoreProductDTO;
 import dev.harshal.scaler.dtos.GenricProductDTO;
 
 import dev.harshal.scaler.exceptions.NotFoundException;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
+import dev.harshal.scaler.thirdpatyclients.productservice.fakestore.FakeStoreProductServiceClient;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("FakeStoreProductService")
+@Primary
 public class FakeStoreProductService implements ProductService{
 
-    RestTemplateBuilder restTemplateBuilder;
-    private String productRequestByIDURL = "https://fakestoreapi.com/products/{id}";
-    private String productRequestURL = "https://fakestoreapi.com/products";
+    private FakeStoreProductServiceClient fakeStoreProductServiceClient;
 
-    FakeStoreProductService(RestTemplateBuilder restTemplateBuilder){
-        this.restTemplateBuilder = restTemplateBuilder;
+    FakeStoreProductService(FakeStoreProductServiceClient fakeStoreProductServiceClient){
+        this.fakeStoreProductServiceClient =  fakeStoreProductServiceClient;
     }
 
     @Override
     public List<GenricProductDTO> getAllProducts() {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        String url = productRequestURL; // Ensure this URL is correct
-
-           ResponseEntity<FakeStoreProductDTO[]> responseEntity = restTemplate.getForEntity(url, FakeStoreProductDTO[].class);
-            FakeStoreProductDTO[] fakeStoreProductDTOArray = responseEntity.getBody();
-
-            if (fakeStoreProductDTOArray != null) {
-                // Convert FakeStoreProductDTO[] to List<GenricProductDTO>
-                List<GenricProductDTO> productsList = Arrays.stream(fakeStoreProductDTOArray)
-                        .map(this::convertToGenricProductDTO) // Use method reference
-                        .collect(Collectors.toList());
-                return productsList;
-            } else {
-                // Handle the case when the response body is null
-                System.err.println("No products found at the provided URL.");
-                return new ArrayList<>();
-            }
+     return convertListToGenricProductDTO(fakeStoreProductServiceClient.getAllProducts());
     }
 
     @Override
     public GenricProductDTO getProductsById(Long id) throws NotFoundException {
-         RestTemplate restTemplate = restTemplateBuilder.build();
-         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity(productRequestByIDURL, FakeStoreProductDTO.class,id);
-         FakeStoreProductDTO fakeStoreProductDTO = responseEntity.getBody();
-         if(fakeStoreProductDTO == null){
-             throw new NotFoundException("Product not found with id "+id+" doesn't exist");
-         }
-         GenricProductDTO product = new GenricProductDTO();
-         product.setCategory(fakeStoreProductDTO.getCategory());
-         product.setDescription(fakeStoreProductDTO.getDescription());
-         product.setPrice(fakeStoreProductDTO.getPrice());
-         product.setTitle(fakeStoreProductDTO.getTitle());
-         product.setPrice(fakeStoreProductDTO.getPrice());
-         return product;
+        return convertToGenricProductDTO(fakeStoreProductServiceClient.getProductsById(id));
     }
 
     @Override
     public void deleteProductsById(Long id) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        restTemplate.delete(productRequestByIDURL);
+       fakeStoreProductServiceClient.deleteProductsById(id);
     }
 
     @Override
     public void createProduct(GenricProductDTO product) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<GenricProductDTO> responseEntity = restTemplate.postForEntity(productRequestURL, product, GenricProductDTO.class);
-        return ;
+       fakeStoreProductServiceClient.createProduct(product);
     }
 
     @Override
     public void updateProductById(GenricProductDTO product) {
-        String url = productRequestURL + "/" + product.getId();
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        restTemplate.put(url, product);
+       fakeStoreProductServiceClient.updateProductById(product);
     }
 
     private GenricProductDTO convertToGenricProductDTO(FakeStoreProductDTO fakeStoreProductDTO) {
@@ -94,6 +58,12 @@ public class FakeStoreProductService implements ProductService{
         // Repeat for all fields
 
         return product;
+    }
+
+    private List<GenricProductDTO> convertListToGenricProductDTO(List<FakeStoreProductDTO> fakeStoreProductDTOList) {
+        return fakeStoreProductDTOList.stream()
+                .map(this::convertToGenricProductDTO)
+                .collect(Collectors.toList());
     }
 
 }
