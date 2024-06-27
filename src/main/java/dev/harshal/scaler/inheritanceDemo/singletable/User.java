@@ -1,4 +1,4 @@
-package dev.harshal.scaler.inheritanceDemo.singletable.mappedsuperclass;
+package dev.harshal.scaler.inheritanceDemo.singletable;
 
 import jakarta.persistence.*;
 import lombok.Getter;
