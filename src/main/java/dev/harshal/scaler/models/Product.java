@@ -15,6 +15,7 @@ public class Product extends BaseModel{
     private String image;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn
     private Category category;
     @OneToOne(cascade = {CascadeType.MERGE,CascadeType.REMOVE})
     private Price price;

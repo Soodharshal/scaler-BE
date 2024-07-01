@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -58,6 +60,19 @@ public class ScalerApplication implements CommandLineRunner {
 
             productRepository.save(product2);
             productRepository.deleteById(UUID.fromString("edd687a1-a643-44bd-80f2-5704e3683449"));
+
+            List<Product> productRepositoryList =  productRepository.findAllByPrice_Currency("INR");
+
+
+            long count =  productRepository.countAllByPrice_Currency("INR");
+            System.out.println(productRepositoryList+"989789798798");
+
+            System.out.println(count+"--989789798798count");
+            System.out.println("fetching category by id 00ae1490-18f6-45bd-ba5f-32501c94da7c");
+            Thread.sleep(2000);
+            Optional<Category> categoryOptional =categoryRepository.findById(UUID.fromString("00ae1490-18f6-45bd-ba5f-32501c94da7c"));
+            Category category1 = categoryOptional.get();
+            System.out.println();
             // Initialize and save products
 
             // Retrieve and display category
