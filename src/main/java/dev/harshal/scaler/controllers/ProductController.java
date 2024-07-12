@@ -22,15 +22,23 @@ public class ProductController {
     }
     @GetMapping
     public  ResponseEntity<List<GenricProductDTO>> getAllProducts(){
-        ResponseEntity<List<GenricProductDTO>> responseEntity = new ResponseEntity<>(
-                productService.getAllProducts(),
+
+        List<GenricProductDTO> genricProductDTOS = productService.getAllProducts();
+        if(genricProductDTOS.isEmpty()){
+            return new ResponseEntity<>(
+                    genricProductDTOS,
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        return new ResponseEntity<>(
+                genricProductDTOS,
                 HttpStatus.OK
         );
-        return responseEntity;
+
     }
 
     @GetMapping("{id}")
-    public GenricProductDTO getProductsById(@PathVariable("id") Long id) throws NotFoundException {
+    public GenricProductDTO getProductsById(@PathVariable("id") Long id) throws NotFoundException{
         return productService.getProductsById(id);
     }
 

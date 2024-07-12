@@ -58,11 +58,14 @@ public class FakeStoreProductServiceClient {
 
     public FakeStoreProductDTO getProductsById(Long id) throws NotFoundException {
         RestTemplate restTemplate = restTemplateBuilder.build();
+        System.out.println("Request URL: " + productRequestByIDURL.replace("{id}", id.toString()));
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity(productRequestByIDURL, FakeStoreProductDTO.class,id);
         FakeStoreProductDTO fakeStoreProductDTO = responseEntity.getBody();
         if(fakeStoreProductDTO == null){
             throw new NotFoundException("Product not found with id "+id+" doesn't exist");
+//             return  null;
         }
+
 //        GenricProductDTO product = new GenricProductDTO();
 //        product.setCategory(fakeStoreProductDTO.getCategory());
 //        product.setDescription(fakeStoreProductDTO.getDescription());

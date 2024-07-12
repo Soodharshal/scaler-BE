@@ -49,14 +49,14 @@ public class ScalerApplication implements CommandLineRunner {
             Product product1 = new Product();
             product1.setTitle("xiaomi 12 pro");
             product1.setDescription("known for the best camera");
-            product1.setPrice(savedPriceInr);
-            product1.setCategory(savedCategory);
+//            product1.setPrice(savedPriceInr);
+//            product1.setCategory(savedCategory);
             Product product2 = new Product();
             productRepository.save(product1);
             product2.setTitle("xiaomi 12 pro 1");
             product2.setDescription("known for the best camera 1");
-            product2.setPrice(savedPriceUsd);
-            product2.setCategory(savedCategory);
+//            product2.setPrice(savedPriceUsd);
+//            product2.setCategory(savedCategory);
 
             productRepository.save(product2);
             productRepository.deleteById(UUID.fromString("edd687a1-a643-44bd-80f2-5704e3683449"));
@@ -68,10 +68,10 @@ public class ScalerApplication implements CommandLineRunner {
             System.out.println(productRepositoryList+"989789798798");
 
             System.out.println(count+"--989789798798count");
-            System.out.println("fetching category by id 00ae1490-18f6-45bd-ba5f-32501c94da7c");
+//            System.out.println("fetching category by id 00ae1490-18f6-45bd-ba5f-32501c94da7c");
             Thread.sleep(2000);
-            Optional<Category> categoryOptional =categoryRepository.findById(UUID.fromString("00ae1490-18f6-45bd-ba5f-32501c94da7c"));
-            Category category1 = categoryOptional.get();
+//            Optional<Category> categoryOptional =categoryRepository.findById(UUID.fromString("00ae1490-18f6-45bd-ba5f-32501c94da7c"));
+//            Category category1 = categoryOptional.get();
             System.out.println();
             // Initialize and save products
 

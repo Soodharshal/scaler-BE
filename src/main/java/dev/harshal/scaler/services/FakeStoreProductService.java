@@ -49,6 +49,8 @@ public class FakeStoreProductService implements ProductService{
 
     private GenricProductDTO convertToGenricProductDTO(FakeStoreProductDTO fakeStoreProductDTO) {
         GenricProductDTO product = new GenricProductDTO();
+
+//        if(fakeStoreProductDTO == null) return product;
         // Assuming both classes have similar fields. Set fields from fakeProduct to genricProduct
         product.setCategory(fakeStoreProductDTO.getCategory());
         product.setDescription(fakeStoreProductDTO.getDescription());
