@@ -69,12 +69,12 @@ public class AuthServiceImpl implements AuthService {
 //                "  \"expirationDate\": \"31December2024\"\n" +
 //                "}";
 //
-//        byte[] content = message.getBytes(StandardCharsets.UTF_8);
-    Map<String, Object> jsonForJWT = new HashMap<>();
-    jsonForJWT.put("email",user.getEmail());
+//      byte[] content = message.getBytes(StandardCharsets.UTF_8);
+        Map<String, Object> jsonForJWT = new HashMap<>();
+        jsonForJWT.put("email",user.getEmail());
         jsonForJWT.put("roles",user.getRoles());
         jsonForJWT.put("createdAT",new Date());
-        jsonForJWT.put("expiryAt", LocalDate.now().plusDays(3));
+        jsonForJWT.put("expiryAt", new Date(LocalDate.now().plusDays(3).toEpochDay()));
 // Create the compact JWS:
         String jws = Jwts.builder().claims(jsonForJWT).signWith(key,alg).compact();
 //
@@ -106,7 +106,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         user.setName(signUpRequestDTO.getName());
         user.setEmail(signUpRequestDTO.getEmail());
-        user.setPassword(bCryptPasswordEncoder.encode(signUpRequestDTO.getEmail()));
+        user.setPassword(bCryptPasswordEncoder.encode(signUpRequestDTO.getPassword()));
        return userRepository.save(user);
 
     }
@@ -119,6 +119,7 @@ public class AuthServiceImpl implements AuthService {
         if (session.getExpiresAt() == null || session.getExpiresAt().before(new Date())) {
             throw new RuntimeException("Invalid expiration date");
         }
+        Jwts.parser().build().equals(session.getToken());
     }
 
     public ResponseEntity<Void> logout(String token, String userId) {

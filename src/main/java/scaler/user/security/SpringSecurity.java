@@ -16,7 +16,8 @@ public class SpringSecurity {
         http.csrf(csrf->csrf.disable()) // Disable CSRF for simplicity in development
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/auth/login").permitAll() // Allow access to /auth/login
+                                .requestMatchers("/auth/login").permitAll()
+                                .requestMatchers("/auth/signup").permitAll()// Allow access to /auth/login
                                 .anyRequest().authenticated() // Require authentication for any other request
                 );
         return  http.build();
