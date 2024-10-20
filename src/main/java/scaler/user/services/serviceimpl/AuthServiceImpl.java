@@ -1,5 +1,7 @@
 package scaler.user.services.serviceimpl;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.MacAlgorithm;
 import org.springframework.http.HttpHeaders;
@@ -89,9 +91,10 @@ public class AuthServiceImpl implements AuthService {
         session.setUser(user);
         session.setSessionStatus(SessionStatus.ACTIVE);
         Date expiresAt = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
+        System.out.println("Expires At: " + expiresAt);
         session.setExpiresAt(expiresAt);
         validateSession(session);
-//        sessionRepository.save(session);
+        sessionRepository.save(session);
 
         UserDTO userDTO = UserDTO.from(user);
         MultiValueMapAdapter<String,String> headers= new MultiValueMapAdapter<>(new HashMap<>());
@@ -119,7 +122,31 @@ public class AuthServiceImpl implements AuthService {
         if (session.getExpiresAt() == null || session.getExpiresAt().before(new Date())) {
             throw new RuntimeException("Invalid expiration date");
         }
-        Jwts.parser().build().equals(session.getToken());
+
+    }
+
+
+    public SessionStatus validate(String token, String userId) {
+
+        Optional<Session> sessionOptional = sessionRepository.findByTokenAndUser_Uuid(token, UUID.fromString(userId));
+
+        if (sessionOptional.isEmpty()) {
+            return SessionStatus.ENDED;
+        }
+
+        Session session = sessionOptional.get();
+
+        if (!session.getSessionStatus().equals(ACTIVE)) {
+            return SessionStatus.ENDED;
+        }
+        Jws<Claims> claimsJws= Jwts.parser().build().parseSignedClaims(token);
+        String email = (String) claimsJws.getPayload().get("email");
+        Date createdAt = (Date) claimsJws.getPayload().get("createdAt");
+        if(createdAt.before(new Date())){
+            return SessionStatus.ENDED;
+        }
+
+        return ACTIVE;
     }
 
     public ResponseEntity<Void> logout(String token, String userId) {
@@ -137,6 +164,7 @@ public class AuthServiceImpl implements AuthService {
         sessionRepository.save(session);
 
         return ResponseEntity.ok().build();
+
     }
 
 

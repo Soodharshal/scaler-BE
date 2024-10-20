@@ -9,6 +9,7 @@ import dev.harshal.scaler.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,13 +21,16 @@ public class ScalerApplication implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final PriceRepository priceRepository;
-
+    public final BCryptPasswordEncoder bCryptPasswordEncoder;
     public ScalerApplication(ProductRepository productRepository,
                              CategoryRepository categoryRepository,
-                             PriceRepository priceRepository) {
+                             PriceRepository priceRepository,
+                             BCryptPasswordEncoder bCryptPasswordEncoder
+                             ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.priceRepository = priceRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public static void main(String[] args) {

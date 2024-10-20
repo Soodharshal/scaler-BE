@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import scaler.user.dtos.*;
+import scaler.user.enums.SessionStatus;
 import scaler.user.models.User;
 import scaler.user.services.AuthService;
 import scaler.user.services.UserService;
@@ -38,6 +39,11 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestBody LogoutRequestDto request) {
         return authService.logout(request.getToken(), request.getUserId());
+    }
+
+    @PostMapping("/validate")
+    public SessionStatus validate(String token, String userId) {
+        return authService.validate(token, userId);
     }
 //
 //    @PostMapping("/login")

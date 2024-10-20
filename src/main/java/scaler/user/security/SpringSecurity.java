@@ -11,17 +11,17 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SpringSecurity {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf->csrf.disable()) // Disable CSRF for simplicity in development
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/auth/login").permitAll()
-                                .requestMatchers("/auth/signup").permitAll()// Allow access to /auth/login
-                                .anyRequest().authenticated() // Require authentication for any other request
-                );
-        return  http.build();
-    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.csrf(csrf->csrf.disable()) // Disable CSRF for simplicity in development
+//                .authorizeHttpRequests(authorizeRequests ->
+//                        authorizeRequests
+//                                .requestMatchers("/auth/login").permitAll()
+//                                .requestMatchers("/auth/signup").permitAll()// Allow access to /auth/login
+//                                .anyRequest().authenticated() // Require authentication for any other request
+//                );
+//        return  http.build();
+//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
