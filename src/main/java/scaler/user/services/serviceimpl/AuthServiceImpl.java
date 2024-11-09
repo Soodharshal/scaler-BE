@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 //      byte[] content = message.getBytes(StandardCharsets.UTF_8);
         Map<String, Object> jsonForJWT = new HashMap<>();
         jsonForJWT.put("email",user.getEmail());
-        jsonForJWT.put("roles",user.getRoles());
+//        jsonForJWT.put("roles",user.getRoles());
         jsonForJWT.put("createdAT",new Date());
         jsonForJWT.put("expiryAt", new Date(LocalDate.now().plusDays(3).toEpochDay()));
 // Create the compact JWS:
